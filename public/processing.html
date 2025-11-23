@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>正在施工中 | 日记本</title>
+    <meta name="description" content="页面正在建设中">
+    <style>
+      :root {
+        --vp-c-bg: #ffffff;
+        --vp-c-text: #213547;
+        --vp-c-text-light: #666666;
+        --vp-c-brand: #4f46e5;
+        --vp-c-brand-light: #6366f1;
+        --vp-c-border: #e2e8f0;
+        --vp-font-family-base: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      
+      .dark {
+        --vp-c-bg: #1a1a1a;
+        --vp-c-text: #e5e7eb;
+        --vp-c-text-light: #9ca3af;
+        --vp-c-brand: #818cf8;
+        --vp-c-brand-light: #a5b4fc;
+        --vp-c-border: #374151;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: var(--vp-font-family-base);
+        background-color: var(--vp-c-bg);
+        color: var(--vp-c-text);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      
+      #app {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        text-align: center;
+      }
+      
+      .construction-container {
+        max-width: 500px;
+        width: 100%;
+      }
+      
+      .construction-icon {
+        font-size: 5rem;
+        margin-bottom: 2rem;
+        color: var(--vp-c-brand);
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--vp-c-text);
+      }
+      
+      p {
+        font-size: 1.125rem;
+        color: var(--vp-c-text-light);
+        margin-bottom: 2rem;
+      }
+      
+      .progress-container {
+        width: 100%;
+        height: 8px;
+        background-color: var(--vp-c-border);
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 2rem 0;
+      }
+      
+      .progress-bar {
+        height: 100%;
+        width: 65%;
+        background-color: var(--vp-c-brand);
+        border-radius: 4px;
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      
+      .status {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: var(--vp-c-border);
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        color: var(--vp-c-text-light);
+        margin-bottom: 2rem;
+      }
+      
+      .home-link {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--vp-c-brand);
+        color: white;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: background-color 0.2s;
+      }
+      
+      .home-link:hover {
+        background-color: var(--vp-c-brand-light);
+      }
+      
+      .theme-toggle {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: var(--vp-c-text);
+        cursor: pointer;
+        font-size: 1.5rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s;
+      }
+      
+      .theme-toggle:hover {
+        background-color: var(--vp-c-border);
+      }
+      
+      footer {
+        padding: 2rem;
+        text-align: center;
+        color: var(--vp-c-text-light);
+        font-size: 0.875rem;
+        border-top: 1px solid var(--vp-c-border);
+      }
+      
+      @media (max-width: 640px) {
+        h1 {
+          font-size: 2rem;
+        }
+        
+        p {
+          font-size: 1rem;
+        }
+        
+        .construction-icon {
+          font-size: 4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
+      <span id="theme-icon">🌙</span>
+    </button>
+    
+    <div id="app">
+      <div class="construction-container">
+        <div class="construction-icon">🚧</div>
+        <h1>正在施工中</h1>
+        <p>我们正在努力建设中，请稍后再来查看。</p>
+        
+        <div class="progress-container">
+          <div class="progress-bar"></div>
+        </div>
+        
+        <div class="status">预计完成时间: 2025年12月2日</div>
+        
+        <a href="/" class="home-link">返回首页</a>
+      </div>
+    </div>
+    
+    <footer>
+      <p>© 2025 我的日记本</p>
+    </footer>
+
+    <script>
+      // 主题切换功能
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const html = document.documentElement;
+      
+      // 检查本地存储或系统偏好
+      const savedTheme = localStorage.getItem('diary-theme') || 'auto';
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      // 应用主题
+      function applyTheme(theme) {
+        if (theme === 'dark' || (theme === 'auto' && systemPrefersDark)) {
+          html.classList.add('dark');
+          themeIcon.textContent = '☀️';
+        } else {
+          html.classList.remove('dark');
+          themeIcon.textContent = '🌙';
+        }
+      }
+      
+      // 初始化主题
+      applyTheme(savedTheme);
+      
+      // 切换主题
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = localStorage.getItem('diary-theme') || 'auto';
+        let newTheme;
+        
+        if (currentTheme === 'auto') {
+          newTheme = 'dark';
+        } else if (currentTheme === 'dark') {
+          newTheme = 'light';
+        } else {
+          newTheme = 'auto';
+        }
+        
+        localStorage.setItem('diary-theme', newTheme);
+        applyTheme(newTheme);
+      });
+      
+      // 监听系统主题变化
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        const savedTheme = localStorage.getItem('diary-theme') || 'auto';
+        if (savedTheme === 'auto') {
+          applyTheme('auto');
+        }
+      });
+    </script>
+  </body>
+</html>
