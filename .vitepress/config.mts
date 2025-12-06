@@ -15,7 +15,7 @@ export default defineConfig({
     sidebar: generateSidebar({
       documentRootPath: '.',
       useTitleFromFileHeading: true,
-      excludeFiles: ['index.md', 'node_modules'],
+      //excludeFiles: ['index.md','processing.md','tags.md',"node_modules"],
       collapsed: false
     }),
     outline: {
